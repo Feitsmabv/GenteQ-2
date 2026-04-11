@@ -27,7 +27,6 @@ import { PageTransition } from '@/components/PageTransition'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
-import { getProjectSettings } from '@/utilities/payload'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -38,7 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-brand-gold focus:px-4 focus:py-2 focus:text-white"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-neutral-900 focus:px-4 focus:py-2 focus:text-white"
         >
           Ga naar inhoud
         </a>
@@ -66,20 +65,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   )
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-  let projectnaam = 'Projectnaam'
-  try {
-    const settings = await getProjectSettings()
-    if (settings?.projectnaam) projectnaam = settings.projectnaam
-  } catch (error) {
-    console.error('[Layout] Fout bij ophalen projectnaam:', error)
-  }
-
+export function generateMetadata(): Metadata {
   return {
     metadataBase: new URL(getServerSideURL()),
     openGraph: {
       type: 'website',
-      siteName: projectnaam,
+      siteName: 'GenteQ',
     },
   }
 }

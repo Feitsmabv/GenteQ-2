@@ -33,25 +33,6 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
         type: 'row',
         fields: [
           {
-            name: 'type',
-            type: 'radio',
-            admin: {
-              layout: 'horizontal',
-              width: '50%',
-            },
-            defaultValue: 'reference',
-            options: [
-              {
-                label: 'Internal link',
-                value: 'reference',
-              },
-              {
-                label: 'Custom URL',
-                value: 'custom',
-              },
-            ],
-          },
-          {
             name: 'newTab',
             type: 'checkbox',
             admin: {
@@ -67,24 +48,14 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
     ],
   }
 
+  // Internal references (relationship naar collections) zijn weggehaald
+  // bij het strippen van het vastgoed-template. Voeg ze later opnieuw toe
+  // wanneer er content collections bestaan om naar te linken.
   const linkTypes: Field[] = [
-    {
-      name: 'reference',
-      type: 'relationship',
-      admin: {
-        condition: (_, siblingData) => siblingData?.type === 'reference',
-      },
-      label: 'Document to link to',
-      relationTo: ['woningen', 'nieuws'],
-      required: true,
-    },
     {
       name: 'url',
       type: 'text',
-      admin: {
-        condition: (_, siblingData) => siblingData?.type === 'custom',
-      },
-      label: 'Custom URL',
+      label: 'URL',
       required: true,
     },
   ]

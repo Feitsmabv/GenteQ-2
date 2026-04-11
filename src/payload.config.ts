@@ -7,12 +7,7 @@ import { migrations } from './migrations'
 
 import { Media } from './collections/Media'
 import { Users } from './collections/Users'
-import { Woningen } from './collections/Woningen'
-import { Nieuws } from './collections/Nieuws'
-import { Faq } from './collections/Faq'
-import { FormSubmissions } from './collections/FormSubmissions'
 import { Header } from './Header/config'
-import { ProjectSettings } from './globals/ProjectSettings/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -72,9 +67,9 @@ export default buildConfig({
     push: false,
     prodMigrations: migrations,
   }),
-  collections: [Woningen, Nieuws, Faq, FormSubmissions, Media, Users],
+  collections: [Media, Users],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [ProjectSettings, Header],
+  globals: [Header],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,
