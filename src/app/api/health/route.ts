@@ -11,8 +11,8 @@ export async function GET() {
   const startedAt = Date.now()
   try {
     const payload = await getPayloadClient()
-    // Lichte query: 1 rij ophalen uit project_settings (de global)
-    await payload.findGlobal({ slug: 'project-settings', depth: 0 })
+    // Lichte query: header global ophalen om DB connectie te verifiëren
+    await payload.findGlobal({ slug: 'header', depth: 0 })
 
     return NextResponse.json({
       status: 'ok',
