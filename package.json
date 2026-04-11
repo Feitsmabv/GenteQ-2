@@ -1,12 +1,12 @@
 {
-  "name": "template-vastgoedproject",
+  "name": "genteq",
   "version": "1.0.0",
-  "description": "Website template for Payload",
+  "description": "GenteQ website",
   "license": "MIT",
   "type": "module",
   "scripts": {
     "build": "cross-env NODE_OPTIONS=--no-deprecation next build",
-    "vercel-build": "if [ \"$VERCEL_ENV\" = \"production\" ]; then node scripts/pre-migrate.mjs && node scripts/run-migrate.mjs; fi && next build",
+    "vercel-build": "next build",
     "postbuild": "next-sitemap --config next-sitemap.config.cjs",
     "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
     "migrate:create": "cross-env NODE_OPTIONS=--no-deprecation payload migrate:create",
