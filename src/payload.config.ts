@@ -64,7 +64,11 @@ export default buildConfig({
       // Sluit oude connecties netjes af zodat de Transaction pooler niet uitloopt
       allowExitOnIdle: true,
     },
-    push: false,
+    // push: true zodat de eerste boot tegen een schone Supabase database
+    // automatisch het schema (users, media, header global) opbouwt.
+    // Zet op false zodra je de eerste echte migratie hebt gegenereerd
+    // met `pnpm migrate:create initial` en het schema stabiel is.
+    push: true,
     prodMigrations: migrations,
   }),
   collections: [Media, Users],

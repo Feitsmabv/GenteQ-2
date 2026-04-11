@@ -67,10 +67,6 @@ export interface Config {
   };
   blocks: {};
   collections: {
-    woningen: Woningen;
-    nieuws: Nieuw;
-    faq: Faq;
-    'form-submissions': FormSubmission;
     media: Media;
     users: User;
     'payload-kv': PayloadKv;
@@ -85,10 +81,6 @@ export interface Config {
     };
   };
   collectionsSelect: {
-    woningen: WoningenSelect<false> | WoningenSelect<true>;
-    nieuws: NieuwsSelect<false> | NieuwsSelect<true>;
-    faq: FaqSelect<false> | FaqSelect<true>;
-    'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
@@ -102,11 +94,9 @@ export interface Config {
   };
   fallbackLocale: null;
   globals: {
-    'project-settings': ProjectSetting;
     header: Header;
   };
   globalsSelect: {
-    'project-settings': ProjectSettingsSelect<false> | ProjectSettingsSelect<true>;
     header: HeaderSelect<false> | HeaderSelect<true>;
   };
   locale: null;
@@ -136,71 +126,6 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "woningen".
- */
-export interface Woningen {
-  id: number;
-  titel: string;
-  /**
-   * Alleen de naam, geen URL! Bv: appartement-a1 (niet de volledige link)
-   */
-  slug: string;
-  type: 'appartement' | 'woning' | 'penthouse';
-  status: 'beschikbaar' | 'nieuw' | 'bijna-volzet' | 'verkocht';
-  adres?: string | null;
-  /**
-   * Prijs in euro zonder punten (bv. 245000)
-   */
-  prijs: number;
-  /**
-   * Tekst boven de prijs (bv. "Vanaf", "Vanaf slechts")
-   */
-  prijsLabel?: string | null;
-  slaapkamers: number;
-  badkamers: number;
-  /**
-   * Bv. "85 m²"
-   */
-  oppervlakte: string;
-  /**
-   * Bv. "3de" of "Gelijkvloers"
-   */
-  verdieping?: string | null;
-  garage?: number | null;
-  tuin?: ('ja' | 'nee') | null;
-  kenmerken?:
-    | {
-        kenmerk: string;
-        id?: string | null;
-      }[]
-    | null;
-  beschrijving?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  hoofdafbeelding: number | Media;
-  galerij?:
-    | {
-        afbeelding: number | Media;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -324,74 +249,6 @@ export interface FolderInterface {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "nieuws".
- */
-export interface Nieuw {
-  id: number;
-  titel: string;
-  /**
-   * Alleen de naam, geen URL! Bv: funderingswerken-afgerond
-   */
-  slug: string;
-  categorie: 'bouwupdate' | 'evenement' | 'project';
-  datum: string;
-  /**
-   * Korte tekst voor de kaart op de overzichtspagina
-   */
-  samenvatting: string;
-  afbeelding?: (number | null) | Media;
-  inhoud: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faq".
- */
-export interface Faq {
-  id: number;
-  vraag: string;
-  antwoord: string;
-  categorie: 'project' | 'woningen' | 'praktisch';
-  /**
-   * Lagere nummers verschijnen eerst
-   */
-  volgorde?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "form-submissions".
- */
-export interface FormSubmission {
-  id: number;
-  type: 'contact' | 'brochure';
-  naam: string;
-  email: string;
-  telefoon?: string | null;
-  interesse?: string | null;
-  bericht?: string | null;
-  marketing?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -445,22 +302,6 @@ export interface PayloadLockedDocument {
   id: number;
   document?:
     | ({
-        relationTo: 'woningen';
-        value: number | Woningen;
-      } | null)
-    | ({
-        relationTo: 'nieuws';
-        value: number | Nieuw;
-      } | null)
-    | ({
-        relationTo: 'faq';
-        value: number | Faq;
-      } | null)
-    | ({
-        relationTo: 'form-submissions';
-        value: number | FormSubmission;
-      } | null)
-    | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
@@ -513,83 +354,6 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "woningen_select".
- */
-export interface WoningenSelect<T extends boolean = true> {
-  titel?: T;
-  slug?: T;
-  type?: T;
-  status?: T;
-  adres?: T;
-  prijs?: T;
-  prijsLabel?: T;
-  slaapkamers?: T;
-  badkamers?: T;
-  oppervlakte?: T;
-  verdieping?: T;
-  garage?: T;
-  tuin?: T;
-  kenmerken?:
-    | T
-    | {
-        kenmerk?: T;
-        id?: T;
-      };
-  beschrijving?: T;
-  hoofdafbeelding?: T;
-  galerij?:
-    | T
-    | {
-        afbeelding?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "nieuws_select".
- */
-export interface NieuwsSelect<T extends boolean = true> {
-  titel?: T;
-  slug?: T;
-  categorie?: T;
-  datum?: T;
-  samenvatting?: T;
-  afbeelding?: T;
-  inhoud?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "faq_select".
- */
-export interface FaqSelect<T extends boolean = true> {
-  vraag?: T;
-  antwoord?: T;
-  categorie?: T;
-  volgorde?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "form-submissions_select".
- */
-export interface FormSubmissionsSelect<T extends boolean = true> {
-  type?: T;
-  naam?: T;
-  email?: T;
-  telefoon?: T;
-  interesse?: T;
-  bericht?: T;
-  marketing?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -764,201 +528,6 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "project-settings".
- */
-export interface ProjectSetting {
-  id: number;
-  projectnaam: string;
-  /**
-   * Standaard logo (gebruikt op witte achtergrond, in navigatie en footer)
-   */
-  logo?: (number | null) | Media;
-  /**
-   * Witte versie van het logo voor donkere hero achtergronden. Optioneel — laat leeg als je donkere logo monochroom is.
-   */
-  logoWit?: (number | null) | Media;
-  /**
-   * Hoofdtitel op de homepage
-   */
-  heroTitel?: string | null;
-  heroSubtitel?: string | null;
-  /**
-   * Kies of de hero een afbeelding, video of standaard donkere achtergrond toont.
-   */
-  heroMediaType?: ('geen' | 'afbeelding' | 'video') | null;
-  /**
-   * Aanbevolen formaat: 1920×1080px of breder. Wordt getoond als achtergrond van de hero.
-   */
-  heroAfbeelding?: (number | null) | Media;
-  /**
-   * Upload een MP4 of WebM video. Wordt automatisch afgespeeld zonder geluid als achtergrond.
-   */
-  heroVideo?: (number | null) | Media;
-  telefoon?: string | null;
-  email?: string | null;
-  adres?: string | null;
-  kantooruren?: string | null;
-  /**
-   * Tekst boven het contactformulier (op homepage, contactpagina, etc.)
-   */
-  contactIntro?: string | null;
-  /**
-   * Titel van het contactblok op de detailpagina van een woning
-   */
-  propertySidebarTitel?: string | null;
-  propertySidebarTekst?: string | null;
-  /**
-   * Stel per subpagina de achtergrond in (kleur of afbeelding).
-   */
-  pageHeroes?: {
-    aanbodHeroType?: ('kleur' | 'afbeelding') | null;
-    /**
-     * Hex kleur (bv. #1a1612)
-     */
-    aanbodHeroKleur?: string | null;
-    /**
-     * Aanbevolen: 1920×600px
-     */
-    aanbodHeroAfbeelding?: (number | null) | Media;
-    nieuwsHeroType?: ('kleur' | 'afbeelding') | null;
-    /**
-     * Hex kleur (bv. #1a1612)
-     */
-    nieuwsHeroKleur?: string | null;
-    /**
-     * Aanbevolen: 1920×600px
-     */
-    nieuwsHeroAfbeelding?: (number | null) | Media;
-    faqHeroType?: ('kleur' | 'afbeelding') | null;
-    /**
-     * Hex kleur (bv. #1a1612)
-     */
-    faqHeroKleur?: string | null;
-    /**
-     * Aanbevolen: 1920×600px
-     */
-    faqHeroAfbeelding?: (number | null) | Media;
-    contactHeroType?: ('kleur' | 'afbeelding') | null;
-    /**
-     * Hex kleur (bv. #1a1612)
-     */
-    contactHeroKleur?: string | null;
-    /**
-     * Aanbevolen: 1920×600px
-     */
-    contactHeroAfbeelding?: (number | null) | Media;
-  };
-  /**
-   * Titel van de aanbod-sectie op de homepage
-   */
-  aanbodTitel?: string | null;
-  aanbodTekst?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  /**
-   * Klein icoon (SVG of PNG) dat naast de tekst wordt getoond. Laat leeg voor het standaard huisje-icoon.
-   */
-  aanbodIcoon?: (number | null) | Media;
-  /**
-   * Upload de projectbrochure (PDF). Bezoekers kunnen deze downloaden via het formulier.
-   */
-  brochure?: (number | null) | Media;
-  brochureTitel?: string | null;
-  brochureOmschrijving?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  introTitel?: string | null;
-  /**
-   * Tekst in de "Over het project" sectie op de homepage
-   */
-  introTekst?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  /**
-   * Afbeelding naast de intro tekst (bv. project render). Aanbevolen: 800×600px of groter.
-   */
-  introAfbeelding?: (number | null) | Media;
-  locatieTitel?: string | null;
-  locatieTekst?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  /**
-   * Upload een afbeelding of video voor de locatie-sectie. Wordt links van de tekst getoond.
-   */
-  locatieAfbeelding?: (number | null) | Media;
-  afstanden?:
-    | {
-        /**
-         * Bv. "Stadscentrum"
-         */
-        locatie: string;
-        /**
-         * Bv. "5 min"
-         */
-        afstand: string;
-        id?: string | null;
-      }[]
-    | null;
-  partners?:
-    | {
-        naam: string;
-        url?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header".
  */
 export interface Header {
@@ -967,7 +536,7 @@ export interface Header {
     | {
         label: string;
         /**
-         * Bv. /aanbod, /nieuws, /faq, /contact (begint met een /)
+         * Bv. / of /contact (relatieve paden moeten met / beginnen). Externe URLs (https://) en anchors (#sectie) mogen ook.
          */
         url: string;
         id?: string | null;
@@ -975,72 +544,6 @@ export interface Header {
     | null;
   updatedAt?: string | null;
   createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "project-settings_select".
- */
-export interface ProjectSettingsSelect<T extends boolean = true> {
-  projectnaam?: T;
-  logo?: T;
-  logoWit?: T;
-  heroTitel?: T;
-  heroSubtitel?: T;
-  heroMediaType?: T;
-  heroAfbeelding?: T;
-  heroVideo?: T;
-  telefoon?: T;
-  email?: T;
-  adres?: T;
-  kantooruren?: T;
-  contactIntro?: T;
-  propertySidebarTitel?: T;
-  propertySidebarTekst?: T;
-  pageHeroes?:
-    | T
-    | {
-        aanbodHeroType?: T;
-        aanbodHeroKleur?: T;
-        aanbodHeroAfbeelding?: T;
-        nieuwsHeroType?: T;
-        nieuwsHeroKleur?: T;
-        nieuwsHeroAfbeelding?: T;
-        faqHeroType?: T;
-        faqHeroKleur?: T;
-        faqHeroAfbeelding?: T;
-        contactHeroType?: T;
-        contactHeroKleur?: T;
-        contactHeroAfbeelding?: T;
-      };
-  aanbodTitel?: T;
-  aanbodTekst?: T;
-  aanbodIcoon?: T;
-  brochure?: T;
-  brochureTitel?: T;
-  brochureOmschrijving?: T;
-  introTitel?: T;
-  introTekst?: T;
-  introAfbeelding?: T;
-  locatieTitel?: T;
-  locatieTekst?: T;
-  locatieAfbeelding?: T;
-  afstanden?:
-    | T
-    | {
-        locatie?: T;
-        afstand?: T;
-        id?: T;
-      };
-  partners?:
-    | T
-    | {
-        naam?: T;
-        url?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
