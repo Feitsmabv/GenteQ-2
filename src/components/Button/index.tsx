@@ -13,7 +13,7 @@ interface ButtonProps {
 const baseClasses = 'inline-flex items-center justify-center rounded-full px-7 py-3.5 text-[15px] font-normal'
 
 const variantClasses = {
-  primary: 'btn-primary bg-brand-gold text-white',
+  primary: 'btn-primary bg-steel-blue text-white',
   outline: 'btn-outline border-[1.5px] border-brand-dark text-brand-dark hover:bg-brand-dark hover:text-white',
   'outline-light': 'btn-outline border-[1.5px] border-white/40 text-white hover:border-white/70',
 }

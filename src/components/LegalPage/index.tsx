@@ -15,7 +15,7 @@ export function LegalPage({ label, title, lastUpdated, sections }: LegalPageProp
   return (
     <article className="bg-white px-5 pb-16 pt-32 md:px-20 md:pb-24">
       <div ref={ref} className="mx-auto max-w-[720px]">
-        <span className="text-xs font-medium tracking-[2.4px] text-brand-gold">{label}</span>
+        <span className="text-xs font-medium tracking-[2.4px] text-steel-blue">{label}</span>
         <h1 className="mt-4 font-heading text-[32px] text-brand-dark md:text-[40px]">{title}</h1>
         <p className="mt-2 text-sm text-brand-muted">Laatst bijgewerkt: {lastUpdated}</p>
 

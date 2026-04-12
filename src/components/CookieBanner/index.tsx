@@ -29,7 +29,7 @@ export function CookieBanner() {
         <div className="flex-1">
           <p className="text-sm leading-6 text-white/80">
             Wij gebruiken cookies om uw ervaring te verbeteren. Door verder te gaan stemt u in met ons{' '}
-            <Link href="/cookies" className="underline text-white hover:text-brand-gold transition-colors">
+            <Link href="/cookies" className="underline text-white hover:text-steel-blue transition-colors">
               cookiebeleid
             </Link>.
           </p>
@@ -45,7 +45,7 @@ export function CookieBanner() {
           <button
             type="button"
             onClick={accept}
-            className="rounded-full bg-brand-gold px-5 py-2.5 text-sm font-normal text-white transition-opacity hover:opacity-90"
+            className="rounded-full bg-steel-blue px-5 py-2.5 text-sm font-normal text-white transition-opacity hover:opacity-90"
           >
             Accepteren
           </button>

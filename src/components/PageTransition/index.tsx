@@ -28,7 +28,7 @@ export function PageTransition() {
   return (
     <div className="fixed left-0 right-0 top-0 z-[60] h-[2px]">
       <div
-        className="h-full bg-brand-gold transition-all duration-300 ease-out"
+        className="h-full bg-steel-blue transition-all duration-300 ease-out"
         style={{ width: `${progress}%`, opacity: progress === 100 ? 0 : 1 }}
       />
     </div>
