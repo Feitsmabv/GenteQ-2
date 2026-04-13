@@ -10,8 +10,6 @@ const poppins = Poppins({
   display: 'swap',
 })
 
-import { CookieBanner } from '@/components/CookieBanner'
-import { GoogleAnalytics } from '@/components/GoogleAnalytics'
 import { ScrollToTop } from '@/components/ScrollToTop'
 import { PageTransition } from '@/components/PageTransition'
 
@@ -23,6 +21,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html className={poppins.variable} lang="nl">
       <head>
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+        {process.env.NEXT_PUBLIC_COOKIEYES_ID && (
+          <script
+            id="cookieyes"
+            src={`https://cdn-cookieyes.com/client_data/${process.env.NEXT_PUBLIC_COOKIEYES_ID}/script.js`}
+          />
+        )}
       </head>
       <body>
         <a
@@ -37,10 +41,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Header en Footer staan uit tijdens de coming soon fase.
             Zet ze terug wanneer de site secties krijgt. */}
         {children}
-        <CookieBanner />
-        {process.env.NEXT_PUBLIC_GA_ID && (
-          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
-        )}
       </body>
     </html>
   )
