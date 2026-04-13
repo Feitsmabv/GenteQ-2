@@ -53,10 +53,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ navLinks }) => {
 
   return (
     <>
-      <header className="fixed left-0 right-0 top-0 z-50 bg-white/95 backdrop-blur transition-all duration-300">
+      <header data-header className="fixed left-0 right-0 top-0 z-50 transition-all duration-300">
         <div className="flex items-center justify-between px-5 py-4 md:px-10">
           <Link href="/" aria-label="Naar startpagina" className="flex items-center">
-            <span className="font-heading text-xl tracking-[1.6px] text-neutral-900">GenteQ</span>
+            <span className="font-heading text-xl font-bold tracking-[2px] text-white">GenteQ</span>
           </Link>
 
           <nav aria-label="Hoofdnavigatie" className="hidden items-center gap-10 text-[15px] lg:flex">
@@ -91,17 +91,17 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ navLinks }) => {
             aria-controls="mobile-menu"
           >
             <span
-              className={`absolute left-1/2 top-1/2 block h-0.5 w-6 -translate-x-1/2 bg-neutral-900 transition-transform duration-300 ease-out ${
+              className={`absolute left-1/2 top-1/2 block h-0.5 w-6 -translate-x-1/2 bg-white transition-transform duration-300 ease-out ${
                 mobileMenuOpen ? 'rotate-45' : '-translate-y-[6px]'
               }`}
             />
             <span
-              className={`absolute left-1/2 top-1/2 block h-0.5 w-6 -translate-x-1/2 bg-neutral-900 transition-opacity duration-200 ease-out ${
+              className={`absolute left-1/2 top-1/2 block h-0.5 w-6 -translate-x-1/2 bg-white transition-opacity duration-200 ease-out ${
                 mobileMenuOpen ? 'opacity-0' : 'opacity-100'
               }`}
             />
             <span
-              className={`absolute left-1/2 top-1/2 block h-0.5 w-6 -translate-x-1/2 bg-neutral-900 transition-transform duration-300 ease-out ${
+              className={`absolute left-1/2 top-1/2 block h-0.5 w-6 -translate-x-1/2 bg-white transition-transform duration-300 ease-out ${
                 mobileMenuOpen ? '-rotate-45' : 'translate-y-[6px]'
               }`}
             />
@@ -112,14 +112,15 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ navLinks }) => {
       {mobileMenuOpen && (
         <>
           <div
-            className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
             onClick={() => setMobileMenuOpen(false)}
             aria-hidden="true"
           />
           <nav
             id="mobile-menu"
             aria-label="Mobiel menu"
-            className="fixed left-0 right-0 top-[72px] z-50 flex flex-col gap-2 bg-white px-5 py-6 shadow-lg lg:hidden"
+            className="fixed left-0 right-0 top-[72px] z-50 flex flex-col gap-2 px-5 py-6 shadow-lg lg:hidden"
+            style={{ backgroundColor: 'var(--charcoal)' }}
           >
             {navLinks.map((link, i) => {
               const isActive = pathname
@@ -135,7 +136,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ navLinks }) => {
                   data-nav-link
                   data-href={link.href}
                   aria-current={isActive ? 'page' : undefined}
-                  className="rounded-lg px-3 py-3 text-base font-medium text-neutral-700"
+                  className="rounded-lg px-3 py-3 text-base font-medium text-white/70 transition-colors hover:text-white"
                 >
                   {link.label}
                 </Link>
