@@ -1,5 +1,6 @@
 {
   "framework": "nextjs",
+  "installCommand": "pnpm install --frozen-lockfile",
   "functions": {
     "src/app/(payload)/**/*.ts": {
       "maxDuration": 60,

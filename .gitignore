@@ -9,7 +9,6 @@ Wachtwoord/
 next-env.d.ts
 tsconfig.tsbuildinfo
 .vercel
-pnpm-lock.yaml
 package-lock.json
 
 # Payload default media upload directory
