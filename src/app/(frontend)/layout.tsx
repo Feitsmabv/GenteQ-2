@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 
 import { Poppins } from 'next/font/google'
-import { headers } from 'next/headers'
 import React from 'react'
 
 const poppins = Poppins({
@@ -13,29 +12,25 @@ const poppins = Poppins({
 
 import { ScrollToTop } from '@/components/ScrollToTop'
 import { PageTransition } from '@/components/PageTransition'
+import { HtmlLangUpdater } from '@/components/HtmlLangUpdater'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
-import { defaultLocale, isLocale } from '@/i18n/config'
+import { defaultLocale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/getDictionary'
 
-async function detectLocale() {
-  const h = await headers()
-  const pathname = h.get('x-pathname') || ''
-  const first = pathname.split('/').filter(Boolean)[0]
-  return first && isLocale(first) ? first : defaultLocale
-}
-
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const locale = await detectLocale()
-  const t = getDictionary(locale)
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // Default lang in HTML is NL (hoofdtaal). HtmlLangUpdater past het op de
+  // client aan naar 'en' wanneer de gebruiker op een /en/... pad zit.
+  const t = getDictionary(defaultLocale)
 
   return (
-    <html className={poppins.variable} lang={locale}>
+    <html className={poppins.variable} lang={defaultLocale}>
       <head>
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
         {process.env.NEXT_PUBLIC_COOKIEYES_ID && (
           <script
+            async
             id="cookieyes"
             src={`https://cdn-cookieyes.com/client_data/${process.env.NEXT_PUBLIC_COOKIEYES_ID}/script.js`}
           />
@@ -64,6 +59,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         >
           {t.common.skipToContent}
         </a>
+        <HtmlLangUpdater />
         <PageTransition />
         <ScrollToTop />
         {/* Header en Footer staan uit tijdens de coming soon fase.

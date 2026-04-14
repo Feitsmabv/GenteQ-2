@@ -96,6 +96,10 @@
       "sharp",
       "esbuild",
       "unrs-resolver"
-    ]
+    ],
+    "overrides": {
+      "react": "$react",
+      "react-dom": "$react-dom"
+    }
   }
 }

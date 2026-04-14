@@ -7,7 +7,6 @@
 // raakt de bug niet en buildt schoon.
 
 export default function GlobalError({
-  error,
   reset,
 }: {
   error: Error & { digest?: string }

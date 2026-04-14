@@ -1,4 +1,27 @@
-export const nl = {
+export type Dictionary = {
+  common: {
+    skipToContent: string
+    comingSoon: string
+    languageSwitcher: string
+  }
+  home: {
+    metaTitle: string
+    metaDescription: string
+    tagline: string
+  }
+  notFound: {
+    label: string
+    title: string
+    description: string
+    homeCta: string
+    contactCta: string
+  }
+  legal: {
+    label: string
+  }
+}
+
+export const nl: Dictionary = {
   common: {
     skipToContent: 'Ga naar inhoud',
     comingSoon: 'Coming Soon',
@@ -21,6 +44,4 @@ export const nl = {
   legal: {
     label: 'JURIDISCH',
   },
-} as const
-
-export type Dictionary = typeof nl
+}

@@ -9,8 +9,6 @@ import {
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
 
-const MAX_FILE_SIZE = 4 * 1024 * 1024 // 4MB — Vercel Hobby plan limit
-
 export const Media: CollectionConfig = {
   slug: 'media',
   folders: true,

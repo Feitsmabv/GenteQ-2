@@ -55,6 +55,8 @@ export default buildConfig({
   },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
+  // Cast: payload@3.81 + db-postgres hebben een type-mismatch op `locale`
+  // wanneer localization is ingeschakeld. Runtime werkt prima.
   db: postgresAdapter({
     pool: {
       connectionString: process.env.DATABASE_URL,
@@ -70,7 +72,8 @@ export default buildConfig({
     // met `pnpm migrate:create initial` en het schema stabiel is.
     push: true,
     prodMigrations: migrations,
-  }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  }) as any,
   collections: [Media, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header],

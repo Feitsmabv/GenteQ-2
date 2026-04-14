@@ -2,9 +2,7 @@ import Link from 'next/link'
 import { defaultLocale, homePath } from '@/i18n/config'
 import { getDictionary } from '@/i18n/getDictionary'
 
-export default function NotFound() {
-  // Next.js geeft geen params aan not-found op layout-niveau. We tonen daarom
-  // de NL fallback. De HtmlLangUpdater zet alsnog het juiste lang-attribuut.
+export default function GlobalNotFound() {
   const t = getDictionary(defaultLocale)
 
   return (
