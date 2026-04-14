@@ -36,7 +36,7 @@
     "@payloadcms/plugin-search": "3.81.0",
     "@payloadcms/plugin-seo": "3.81.0",
     "@payloadcms/richtext-lexical": "3.81.0",
-    "@payloadcms/storage-s3": "^3.81.0",
+    "@payloadcms/storage-s3": "3.81.0",
     "@payloadcms/ui": "3.81.0",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-label": "^2.0.2",
@@ -55,8 +55,8 @@
     "payload": "3.81.0",
     "pg": "^8.20.0",
     "prism-react-renderer": "^2.3.1",
-    "react": "^19",
-    "react-dom": "^19",
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
     "react-hook-form": "7.71.1",
     "sharp": "0.34.2",
     "tailwind-merge": "^3.4.0",
@@ -98,8 +98,8 @@
       "unrs-resolver"
     ],
     "overrides": {
-      "react": "$react",
-      "react-dom": "$react-dom"
+      "react": "19.2.5",
+      "react-dom": "19.2.5"
     }
   }
 }
