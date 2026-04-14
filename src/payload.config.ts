@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url'
 import { migrations } from './migrations'
 
 import { Media } from './collections/Media'
+import { Pages } from './collections/Pages'
 import { Users } from './collections/Users'
 import { Header } from './Header/config'
 import { plugins } from './plugins'
@@ -82,7 +83,7 @@ export default buildConfig({
     prodMigrations: migrations,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }) as any,
-  collections: [Media, Users],
+  collections: [Pages, Media, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header],
   localization: {

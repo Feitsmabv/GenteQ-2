@@ -15,8 +15,10 @@ const generateURL: GenerateURL = ({ doc }) => {
 
 export const plugins: Plugin[] = [
   seoPlugin({
+    collections: ['pages'],
     generateTitle,
     generateURL,
+    uploadsCollection: 'media',
   }),
   ...(process.env.S3_ENDPOINT
     ? [

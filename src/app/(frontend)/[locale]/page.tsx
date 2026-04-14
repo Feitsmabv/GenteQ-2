@@ -1,8 +1,25 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { draftMode } from 'next/headers'
 import { WaveLines } from '@/components/WaveLines'
-import { isLocale } from '@/i18n/config'
+import { isLocale, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/getDictionary'
+import { getPayloadClient } from '@/utilities/payload'
+import { RenderBlocks } from '@/blocks/RenderBlocks'
+
+async function queryHome(locale: Locale) {
+  const { isEnabled: draft } = await draftMode()
+  const payload = await getPayloadClient()
+  const result = await payload.find({
+    collection: 'pages',
+    draft,
+    limit: 1,
+    locale,
+    overrideAccess: draft,
+    where: { slug: { equals: 'home' } },
+  })
+  return result.docs[0] ?? null
+}
 
 export async function generateMetadata({
   params,
@@ -11,6 +28,16 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params
   if (!isLocale(locale)) return {}
+
+  const page = await queryHome(locale)
+  if (page) {
+    const meta = (page as { meta?: { title?: string; description?: string } }).meta
+    return {
+      title: meta?.title || page.title,
+      description: meta?.description,
+    }
+  }
+
   const t = getDictionary(locale)
   return {
     title: t.home.metaTitle,
@@ -25,6 +52,16 @@ export default async function Home({
 }) {
   const { locale } = await params
   if (!isLocale(locale)) notFound()
+
+  const page = await queryHome(locale)
+  if (page) {
+    return (
+      <main id="main-content">
+        <RenderBlocks blocks={page.layout} />
+      </main>
+    )
+  }
+
   const t = getDictionary(locale)
 
   return (
