@@ -4,6 +4,7 @@ node_modules
 .DS_Store
 .env
 Wachtwoord/
+*.rtf
 .next
 next-env.d.ts
 tsconfig.tsbuildinfo
