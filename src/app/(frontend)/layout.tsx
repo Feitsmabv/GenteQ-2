@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import { Poppins } from 'next/font/google'
+import { headers } from 'next/headers'
 import React from 'react'
 
 const poppins = Poppins({
@@ -15,10 +16,22 @@ import { PageTransition } from '@/components/PageTransition'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
+import { defaultLocale, isLocale } from '@/i18n/config'
+import { getDictionary } from '@/i18n/getDictionary'
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+async function detectLocale() {
+  const h = await headers()
+  const pathname = h.get('x-pathname') || ''
+  const first = pathname.split('/').filter(Boolean)[0]
+  return first && isLocale(first) ? first : defaultLocale
+}
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await detectLocale()
+  const t = getDictionary(locale)
+
   return (
-    <html className={poppins.variable} lang="nl">
+    <html className={poppins.variable} lang={locale}>
       <head>
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
         {process.env.NEXT_PUBLIC_COOKIEYES_ID && (
@@ -49,7 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:px-4 focus:py-2 focus:text-white"
           style={{ backgroundColor: 'var(--steel-blue)' }}
         >
-          Ga naar inhoud
+          {t.common.skipToContent}
         </a>
         <PageTransition />
         <ScrollToTop />

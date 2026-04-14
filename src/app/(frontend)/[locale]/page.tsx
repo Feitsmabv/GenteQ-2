@@ -1,12 +1,32 @@
 import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 import { WaveLines } from '@/components/WaveLines'
+import { isLocale } from '@/i18n/config'
+import { getDictionary } from '@/i18n/getDictionary'
 
-export const metadata: Metadata = {
-  title: 'GenteQ | Energieoplossingen, Vereenvoudigd',
-  description: 'B2B energieoplossingen die complexiteit doorbreken. Slimme energie, zonder gedoe.',
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+  if (!isLocale(locale)) return {}
+  const t = getDictionary(locale)
+  return {
+    title: t.home.metaTitle,
+    description: t.home.metaDescription,
+  }
 }
 
-export default function Home() {
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ locale: string }>
+}) {
+  const { locale } = await params
+  if (!isLocale(locale)) notFound()
+  const t = getDictionary(locale)
+
   return (
     <main
       id="main-content"
@@ -16,7 +36,7 @@ export default function Home() {
 
       <div className="relative z-10 flex max-w-lg flex-col items-center text-center">
         <span className="text-[11px] font-medium uppercase tracking-[4px] text-steel-blue">
-          Coming Soon
+          {t.common.comingSoon}
         </span>
 
         <h1 className="mt-8 text-5xl font-bold tracking-[2px] text-white md:text-7xl">
@@ -24,7 +44,7 @@ export default function Home() {
         </h1>
 
         <p className="mt-5 text-base font-light leading-7 text-slate-light">
-          Energieoplossingen.
+          {t.home.tagline}
         </p>
       </div>
     </main>

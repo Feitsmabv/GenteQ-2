@@ -74,6 +74,14 @@ export default buildConfig({
   collections: [Media, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header],
+  localization: {
+    locales: [
+      { label: 'Nederlands', code: 'nl' },
+      { label: 'English', code: 'en' },
+    ],
+    defaultLocale: 'nl',
+    fallback: true,
+  },
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,

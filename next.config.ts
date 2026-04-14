@@ -51,6 +51,15 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: true,
   redirects,
+  async rewrites() {
+    return [
+      { source: '/', destination: '/nl' },
+      { source: '/privacy', destination: '/nl/privacy' },
+      { source: '/voorwaarden', destination: '/nl/terms' },
+      { source: '/cookies', destination: '/nl/cookies' },
+      { source: '/en/privacy-policy', destination: '/en/privacy' },
+    ]
+  },
   turbopack: {
     root: path.resolve(dirname),
   },
