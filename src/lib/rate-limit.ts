@@ -19,6 +19,13 @@ const MAX_REQUESTS = 5
 const hasUpstash =
   !!process.env.UPSTASH_REDIS_REST_URL && !!process.env.UPSTASH_REDIS_REST_TOKEN
 
+if (process.env.NODE_ENV === 'production' && !hasUpstash) {
+  throw new Error(
+    '[rate-limit] UPSTASH_REDIS_REST_URL en UPSTASH_REDIS_REST_TOKEN zijn verplicht in productie. ' +
+      'Zonder Upstash is rate-limiting op Vercel serverless effectief uitgeschakeld.',
+  )
+}
+
 const upstashLimiter = hasUpstash
   ? new Ratelimit({
       redis: Redis.fromEnv(),
@@ -52,14 +59,6 @@ export async function rateLimit(identifier: string): Promise<{ success: boolean 
   if (upstashLimiter) {
     const { success } = await upstashLimiter.limit(identifier)
     return { success }
-  }
-
-  if (process.env.NODE_ENV === 'production') {
-    // Vercel serverless + geen Upstash = rate limit is effectief geen limiet.
-    // Log één keer zichtbaar zodat dit niet ongemerkt blijft.
-    console.warn(
-      '[rate-limit] UPSTASH_REDIS_REST_URL niet gezet in productie; in-memory fallback heeft geen effect over meerdere invocations.',
-    )
   }
 
   return memoryLimit(identifier)

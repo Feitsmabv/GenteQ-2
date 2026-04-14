@@ -1,4 +1,5 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
+import { resendAdapter } from '@payloadcms/email-resend'
 import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
@@ -11,6 +12,7 @@ import { Header } from './Header/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
+import { rateLimit } from './lib/rate-limit'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -93,22 +95,34 @@ export default buildConfig({
   },
   plugins,
   secret: process.env.PAYLOAD_SECRET,
+  // Email — gebruikt voor password reset, form notificaties, etc.
+  // Vereist RESEND_API_KEY en RESEND_FROM_EMAIL. Zonder deze vars valt Payload
+  // terug op console logging (dev-safe, maar forgot-password werkt dan niet).
+  email: resendAdapter({
+    defaultFromAddress: process.env.RESEND_FROM_EMAIL || 'noreply@example.com',
+    defaultFromName: 'GenteQ',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
   sharp,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   jobs: {
     access: {
-      run: ({ req }: { req: PayloadRequest }): boolean => {
-        // Allow logged in users to execute this endpoint (default)
+      run: async ({ req }: { req: PayloadRequest }): Promise<boolean> => {
         if (req.user) return true
 
         const secret = process.env.CRON_SECRET
         if (!secret) return false
 
-        // If there is no logged in user, then check
-        // for the Vercel Cron secret to be present as an
-        // Authorization header:
+        // Rate-limit per IP om brute-force op CRON_SECRET te voorkomen.
+        const ip =
+          req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+          req.headers.get('x-real-ip') ||
+          'unknown'
+        const { success } = await rateLimit(`cron:${ip}`)
+        if (!success) return false
+
         const authHeader = req.headers.get('authorization')
         return authHeader === `Bearer ${secret}`
       },
