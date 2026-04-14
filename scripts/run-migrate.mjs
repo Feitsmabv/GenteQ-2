@@ -50,7 +50,6 @@ function runPayloadMigrate() {
   })
 }
 
-let lastError
 for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
   try {
     console.log(`[run-migrate] Poging ${attempt}/${MAX_RETRIES}`)
@@ -58,7 +57,6 @@ for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
     console.log('[run-migrate] Migraties succesvol uitgevoerd')
     process.exit(0)
   } catch (error) {
-    lastError = error
     const isConnectionError =
       error.stderr?.includes('Max client connections reached') ||
       error.stderr?.includes('cannot connect to Postgres') ||

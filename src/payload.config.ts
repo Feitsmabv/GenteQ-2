@@ -68,8 +68,14 @@ export default buildConfig({
     },
     // push: true zodat de eerste boot tegen een schone Supabase database
     // automatisch het schema (users, media, header global) opbouwt.
-    // Zet op false zodra je de eerste echte migratie hebt gegenereerd
-    // met `pnpm migrate:create initial` en het schema stabiel is.
+    //
+    // ⚠️ VÓÓR ECHTE PRODUCTION LAUNCH (niet dev-preview):
+    //   1. Draai `pnpm migrate:create initial` om baseline migration te genereren
+    //   2. Zet deze vlag op `false`
+    //   3. Commit de `src/migrations/` folder
+    //   4. Vercel build draait dan `pnpm migrate` via run-migrate.mjs
+    // Anders riskeer je dat Payload het productie-schema overschrijft bij
+    // schema-wijzigingen of destructive drift detecteert.
     push: true,
     prodMigrations: migrations,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

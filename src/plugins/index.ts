@@ -25,7 +25,12 @@ export const plugins: Plugin[] = [
             media: {
               prefix: 'payload',
               generateFileURL: ({ filename }) => {
-                const projectId = (process.env.S3_ENDPOINT || '').match(/https:\/\/([^.]+)/)?.[1] || ''
+                const projectId = process.env.SUPABASE_PROJECT_ID
+                if (!projectId) {
+                  throw new Error(
+                    'SUPABASE_PROJECT_ID env var is niet gezet; kan public media URL niet genereren.',
+                  )
+                }
                 return `https://${projectId}.supabase.co/storage/v1/object/public/media/payload/${filename}`
               },
             },
