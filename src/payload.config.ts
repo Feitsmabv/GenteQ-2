@@ -27,7 +27,9 @@ if (!process.env.DATABASE_URL) {
   throw new Error('DATABASE_URL ontbreekt — stel deze in als environment variable.')
 }
 
-if (process.env.NODE_ENV === 'production') {
+// Runtime-check (niet tijdens `next build` page-data collection).
+// NEXT_PHASE is undefined bij een cold-start van een serverless function.
+if (process.env.NODE_ENV === 'production' && process.env.NEXT_PHASE !== 'phase-production-build') {
   if (!process.env.RESEND_API_KEY) {
     throw new Error('RESEND_API_KEY ontbreekt in productie — forgot-password zou stil falen.')
   }
