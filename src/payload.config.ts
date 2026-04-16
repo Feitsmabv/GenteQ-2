@@ -1,5 +1,6 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { resendAdapter } from '@payloadcms/email-resend'
+import { timingSafeEqual } from 'crypto'
 import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
@@ -24,6 +25,15 @@ if (!process.env.PAYLOAD_SECRET) {
 
 if (!process.env.DATABASE_URL) {
   throw new Error('DATABASE_URL ontbreekt — stel deze in als environment variable.')
+}
+
+if (process.env.NODE_ENV === 'production') {
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error('RESEND_API_KEY ontbreekt in productie — forgot-password zou stil falen.')
+  }
+  if (!process.env.RESEND_FROM_EMAIL) {
+    throw new Error('RESEND_FROM_EMAIL ontbreekt in productie.')
+  }
 }
 
 export default buildConfig({
@@ -69,22 +79,24 @@ export default buildConfig({
       // Sluit oude connecties netjes af zodat de Transaction pooler niet uitloopt
       allowExitOnIdle: true,
     },
-    // push: true zodat de eerste boot tegen een schone Supabase database
-    // automatisch het schema (users, media, header global) opbouwt.
+    // push: true bouwt het schema automatisch op bij boot (dev/preview).
+    // In productie hard uit: anders kan Payload destructive drift toepassen
+    // op de live database. Productie draait migrations via run-migrate.mjs.
     //
-    // ⚠️ VÓÓR ECHTE PRODUCTION LAUNCH (niet dev-preview):
-    //   1. Draai `pnpm migrate:create initial` om baseline migration te genereren
-    //   2. Zet deze vlag op `false`
-    //   3. Commit de `src/migrations/` folder
-    //   4. Vercel build draait dan `pnpm migrate` via run-migrate.mjs
-    // Anders riskeer je dat Payload het productie-schema overschrijft bij
-    // schema-wijzigingen of destructive drift detecteert.
-    push: true,
+    // VÓÓR EERSTE PRODUCTION DEPLOY:
+    //   1. `pnpm migrate:create initial` (lokaal tegen dev DB)
+    //   2. Commit `src/migrations/`
+    //   3. Vercel build draait dan `pnpm migrate`
+    push: process.env.NODE_ENV !== 'production',
     prodMigrations: migrations,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }) as any,
   collections: [Pages, Media, Users],
-  cors: [getServerSideURL()].filter(Boolean),
+  cors: [
+    getServerSideURL(),
+    process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '',
+    process.env.VERCEL_BRANCH_URL ? `https://${process.env.VERCEL_BRANCH_URL}` : '',
+  ].filter(Boolean),
   globals: [Header],
   localization: {
     locales: [
@@ -100,9 +112,9 @@ export default buildConfig({
   // Vereist RESEND_API_KEY en RESEND_FROM_EMAIL. Zonder deze vars valt Payload
   // terug op console logging (dev-safe, maar forgot-password werkt dan niet).
   email: resendAdapter({
-    defaultFromAddress: process.env.RESEND_FROM_EMAIL || 'noreply@example.com',
+    defaultFromAddress: process.env.RESEND_FROM_EMAIL || 'noreply@localhost',
     defaultFromName: 'GenteQ',
-    apiKey: process.env.RESEND_API_KEY || '',
+    apiKey: process.env.RESEND_API_KEY || 'dev-no-key',
   }),
   sharp,
   typescript: {
@@ -125,7 +137,12 @@ export default buildConfig({
         if (!success) return false
 
         const authHeader = req.headers.get('authorization')
-        return authHeader === `Bearer ${secret}`
+        if (!authHeader?.startsWith('Bearer ')) return false
+
+        const provided = Buffer.from(authHeader.slice(7))
+        const expected = Buffer.from(`${secret}`)
+        if (provided.length !== expected.length) return false
+        return timingSafeEqual(provided, expected)
       },
     },
     tasks: [],

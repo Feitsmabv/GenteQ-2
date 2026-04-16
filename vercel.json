@@ -3,7 +3,7 @@
   "installCommand": "pnpm install --frozen-lockfile",
   "functions": {
     "src/app/(payload)/**/*.ts": {
-      "maxDuration": 60,
+      "maxDuration": 300,
       "memory": 1024
     }
   }

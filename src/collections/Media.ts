@@ -38,7 +38,7 @@ export const Media: CollectionConfig = {
   upload: {
     adminThumbnail: 'thumbnail',
     focalPoint: true,
-    mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'application/pdf', 'video/mp4', 'video/webm'],
+    mimeTypes: ['image/jpeg', 'image/png', 'image/webp'],
     imageSizes: [
       {
         name: 'thumbnail',

@@ -42,6 +42,13 @@ function memoryLimit(identifier: string): { success: boolean } {
   const now = Date.now()
   const entry = memoryMap.get(identifier)
 
+  // Lazy eviction: ruim verlopen entries op zodra de map groot wordt.
+  if (memoryMap.size > 1000) {
+    for (const [key, value] of memoryMap) {
+      if (now > value.resetTime) memoryMap.delete(key)
+    }
+  }
+
   if (!entry || now > entry.resetTime) {
     memoryMap.set(identifier, { count: 1, resetTime: now + MEMORY_WINDOW_MS })
     return { success: true }

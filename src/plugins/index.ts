@@ -1,11 +1,21 @@
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { s3Storage } from '@payloadcms/storage-s3'
 import { Plugin } from 'payload'
-import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
+import {
+  GenerateDescription,
+  GenerateTitle,
+  GenerateURL,
+} from '@payloadcms/plugin-seo/types'
 import { getServerSideURL } from '@/utilities/getURL'
 
+const SITE_NAME = 'GenteQ'
+
 const generateTitle: GenerateTitle = ({ doc }) => {
-  return doc?.title ? `${doc.title}` : ''
+  return doc?.title ? `${doc.title} — ${SITE_NAME}` : SITE_NAME
+}
+
+const generateDescription: GenerateDescription = ({ doc }) => {
+  return doc?.excerpt || doc?.description || ''
 }
 
 const generateURL: GenerateURL = ({ doc }) => {
@@ -17,6 +27,7 @@ export const plugins: Plugin[] = [
   seoPlugin({
     collections: ['pages'],
     generateTitle,
+    generateDescription,
     generateURL,
     uploadsCollection: 'media',
   }),
