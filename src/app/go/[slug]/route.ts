@@ -54,8 +54,12 @@ const links: Record<string, UtmLink> = {
   },
 }
 
-export function GET(request: NextRequest, { params }: { params: { slug: string } }) {
-  const link = links[params.slug]
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> },
+) {
+  const { slug } = await params
+  const link = links[slug]
   const origin = new URL(request.url).origin
 
   if (!link) {
