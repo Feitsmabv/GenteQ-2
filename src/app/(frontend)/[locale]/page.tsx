@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { draftMode } from 'next/headers'
 import { WaveLines } from '@/components/WaveLines'
+import { SplineBackground } from '@/components/SplineBackground'
 import { isLocale, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/getDictionary'
 import { getPayloadClient } from '@/utilities/payload'
@@ -69,6 +70,7 @@ export default async function Home({
       id="main-content"
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-carbon-black px-6"
     >
+      <SplineBackground scene="https://prod.spline.design/3OehmQIOWEVKdi9w/scene.splinecode" />
       <WaveLines />
 
       <div className="relative z-10 flex max-w-lg flex-col items-center text-center">

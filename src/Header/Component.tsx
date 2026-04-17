@@ -1,27 +1,46 @@
 import { getPayloadClient } from '@/utilities/payload'
-import { HeaderClient } from './Component.client'
+import { HeaderClient, type NavCta, type NavLink } from './Component.client'
 
-const defaultNavLinks = [{ label: 'Home', href: '/' }]
+const defaultNavLinks: NavLink[] = [
+  { label: 'Home', href: '/' },
+  { label: 'Over ons', href: '/over-ons' },
+  { label: 'Contact', href: '/contact' },
+]
+const defaultCta: NavCta = { label: 'Offerte aanvragen', href: '/contact' }
+
+function normalizeHref(url: string): string {
+  if (!url) return '/'
+  if (url.startsWith('/') || url.startsWith('http') || url.startsWith('#')) return url
+  return `/${url}`
+}
 
 export async function Header() {
   let navLinks = defaultNavLinks
+  let cta: NavCta | null = defaultCta
 
   try {
     const payload = await getPayloadClient()
     const header = await payload.findGlobal({ slug: 'header' })
+
     const items = header?.navItems as { label: string; url: string }[] | undefined
     if (items && items.length > 0) {
-      navLinks = items.map((item) => {
-        let href = item.url
-        if (href && !href.startsWith('/') && !href.startsWith('http') && !href.startsWith('#')) {
-          href = `/${href}`
-        }
-        return { label: item.label, href }
-      })
+      navLinks = items.map((item) => ({
+        label: item.label,
+        href: normalizeHref(item.url),
+      }))
+    }
+
+    const ctaData = header?.cta as
+      | { enabled?: boolean; label?: string; url?: string }
+      | undefined
+    if (ctaData?.enabled === false) {
+      cta = null
+    } else if (ctaData?.label && ctaData?.url) {
+      cta = { label: ctaData.label, href: normalizeHref(ctaData.url) }
     }
   } catch (error) {
     console.error('[Header] Fout bij ophalen navigatie:', error)
   }
 
-  return <HeaderClient navLinks={navLinks} />
+  return <HeaderClient navLinks={navLinks} cta={cta} />
 }

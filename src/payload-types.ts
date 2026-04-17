@@ -157,11 +157,19 @@ export interface Page {
     title: string;
     subtitle?: string | null;
     media?: (number | null) | Media;
+    /**
+     * Optioneel. Plak hier een .splinecode URL van Spline (bv. https://prod.spline.design/XXXX/scene.splinecode) om een 3D animatie als achtergrond te tonen.
+     */
+    splineScene?: string | null;
+    /**
+     * Optioneel. Export een PNG van dezelfde Spline scene. Wordt direct getoond terwijl de 3D animatie laadt.
+     */
+    splineFallback?: (number | null) | Media;
     ctas?:
       | {
           label: string;
           url: string;
-          style?: ('primary' | 'secondary') | null;
+          style?: ('primary' | 'secondary' | 'ghost') | null;
           id?: string | null;
         }[]
       | null;
@@ -523,6 +531,8 @@ export interface PagesSelect<T extends boolean = true> {
               title?: T;
               subtitle?: T;
               media?: T;
+              splineScene?: T;
+              splineFallback?: T;
               ctas?:
                 | T
                 | {
@@ -764,6 +774,17 @@ export interface Header {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Knop rechts in de navigatiebalk. Uitvinken om te verbergen.
+   */
+  cta?: {
+    enabled?: boolean | null;
+    label?: string | null;
+    /**
+     * Bv. /contact, #offerte of https://...
+     */
+    url?: string | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -778,6 +799,13 @@ export interface HeaderSelect<T extends boolean = true> {
         label?: T;
         url?: T;
         id?: T;
+      };
+  cta?:
+    | T
+    | {
+        enabled?: T;
+        label?: T;
+        url?: T;
       };
   updatedAt?: T;
   createdAt?: T;

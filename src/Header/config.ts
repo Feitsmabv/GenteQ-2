@@ -46,5 +46,48 @@ export const Header: GlobalConfig = {
         },
       ],
     },
+    {
+      name: 'cta',
+      type: 'group',
+      label: 'CTA knop',
+      admin: {
+        description: 'Knop rechts in de navigatiebalk. Uitvinken om te verbergen.',
+      },
+      fields: [
+        {
+          name: 'enabled',
+          type: 'checkbox',
+          label: 'Tonen',
+          defaultValue: true,
+        },
+        {
+          name: 'label',
+          type: 'text',
+          label: 'Label',
+          localized: true,
+          defaultValue: 'Offerte aanvragen',
+          admin: {
+            condition: (_, siblingData) => Boolean(siblingData?.enabled),
+          },
+        },
+        {
+          name: 'url',
+          type: 'text',
+          label: 'URL',
+          defaultValue: '/contact',
+          admin: {
+            description: 'Bv. /contact, #offerte of https://...',
+            condition: (_, siblingData) => Boolean(siblingData?.enabled),
+          },
+          validate: (value: string | null | undefined, { siblingData }: { siblingData?: { enabled?: boolean } }) => {
+            if (!siblingData?.enabled) return true
+            if (!value) return 'URL is verplicht'
+            if (value.startsWith('http') || value.startsWith('#')) return true
+            if (!value.startsWith('/')) return 'URL moet beginnen met / (bv. /contact)'
+            return true
+          },
+        },
+      ],
+    },
   ],
 }

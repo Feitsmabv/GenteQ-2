@@ -42,6 +42,28 @@ export const Hero: Block = {
       relationTo: 'media',
     },
     {
+      name: 'splineScene',
+      type: 'text',
+      label: '3D achtergrond (Spline scene URL)',
+      admin: {
+        description:
+          'Optioneel. Plak hier een .splinecode URL van Spline (bv. https://prod.spline.design/XXXX/scene.splinecode) om een 3D animatie als achtergrond te tonen.',
+      },
+    },
+    {
+      name: 'splineFallback',
+      type: 'upload',
+      relationTo: 'media',
+      label: '3D achtergrond — fallback afbeelding',
+      admin: {
+        description:
+          'Optioneel. Export een PNG van dezelfde Spline scene. Wordt direct getoond terwijl de 3D animatie laadt.',
+        condition: (data, siblingData) =>
+          typeof siblingData?.splineScene === 'string' &&
+          siblingData.splineScene.trim().length > 0,
+      },
+    },
+    {
       name: 'ctas',
       type: 'array',
       labels: { singular: 'CTA', plural: 'CTAs' },
@@ -63,8 +85,9 @@ export const Hero: Block = {
           type: 'select',
           defaultValue: 'primary',
           options: [
-            { label: 'Primary', value: 'primary' },
-            { label: 'Secondary', value: 'secondary' },
+            { label: 'Primary (blauw)', value: 'primary' },
+            { label: 'Secondary (outline wit)', value: 'secondary' },
+            { label: 'Ghost (subtiel, blauwe border)', value: 'ghost' },
           ],
         },
       ],

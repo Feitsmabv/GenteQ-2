@@ -250,9 +250,48 @@
   }
 }
 
+/* Hero title — word-by-word reveal */
+@keyframes hero-word-in {
+  0% {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(0.4em);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+.hero-title-word,
+.hero-fade-in {
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(0.4em);
+  animation: hero-word-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: var(--word-delay, 0ms);
+  will-change: opacity, filter, transform;
+}
+
+.hero-title-word {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-title-word,
+  .hero-fade-in {
+    animation: none;
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+}
+
 /* Button hover animations */
 .btn-primary,
-.btn-outline {
+.btn-outline,
+.btn-ghost {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -275,7 +314,8 @@
 }
 
 .btn-primary::after,
-.btn-outline::after {
+.btn-outline::after,
+.btn-ghost::after {
   content: '→';
   display: inline-block;
   max-width: 0;
@@ -288,7 +328,8 @@
 }
 
 .btn-primary:hover::after,
-.btn-outline:hover::after {
+.btn-outline:hover::after,
+.btn-ghost:hover::after {
   max-width: 1.5em;
   opacity: 1;
   margin-left: 0.5em;
@@ -300,13 +341,28 @@
               color 0.3s ease;
 }
 
+/* Ghost: borderkleur glow + subtiele bg-lift op hover */
+.btn-ghost {
+  transition: border-color 0.3s ease,
+              background-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
+.btn-ghost:hover {
+  border-color: rgba(200, 222, 237, 0.7);
+  background-color: rgba(200, 222, 237, 0.08);
+  box-shadow: 0 0 0 1px rgba(200, 222, 237, 0.2), 0 0 24px rgba(200, 222, 237, 0.15);
+}
+
 /* Modifier: schakel de hover-pijl uit (voor terug-, reset- en utility-knoppen) */
 .btn-no-arrow::after,
 .btn-no-arrow:hover::after,
 .btn-primary.btn-no-arrow::after,
 .btn-primary.btn-no-arrow:hover::after,
 .btn-outline.btn-no-arrow::after,
-.btn-outline.btn-no-arrow:hover::after {
+.btn-outline.btn-no-arrow:hover::after,
+.btn-ghost.btn-no-arrow::after,
+.btn-ghost.btn-no-arrow:hover::after {
   content: none !important;
   display: none !important;
   max-width: 0 !important;
@@ -399,5 +455,44 @@ header[data-header] {
   background-color: var(--graphite);
   color: #ffffff;
   font-weight: 600;
+}
+
+/* Floating pill navigatie */
+.nav-pill {
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.nav-pill-link {
+  color: var(--slate-light);
+  font-weight: 400;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.nav-pill-link:hover {
+  color: #ffffff;
+}
+
+.nav-pill-link[aria-current='page'] {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* CTA-knop met gradient uit design */
+.nav-cta {
+  background: linear-gradient(90deg, #5e7c91 0%, #8397a5 100%);
+  transition: filter 0.2s ease, transform 0.2s ease;
+  white-space: nowrap;
+}
+
+.nav-cta:hover {
+  filter: brightness(1.1);
+}
+
+.nav-cta:active {
+  transform: scale(0.98);
 }
 

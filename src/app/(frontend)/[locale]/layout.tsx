@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import { isLocale, locales } from '@/i18n/config'
+import { Header } from '@/Header/Component'
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
@@ -14,5 +15,10 @@ export default async function LocaleLayout({
 }) {
   const { locale } = await params
   if (!isLocale(locale)) notFound()
-  return children
+  return (
+    <>
+      <Header />
+      {children}
+    </>
+  )
 }
