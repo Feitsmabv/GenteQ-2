@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { isLocale, locales } from '@/i18n/config'
 import { Header } from '@/Header/Component'
+import { SiteLoader } from '@/components/SiteLoader'
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
@@ -17,6 +18,7 @@ export default async function LocaleLayout({
   if (!isLocale(locale)) notFound()
   return (
     <>
+      <SiteLoader />
       <Header />
       {children}
     </>

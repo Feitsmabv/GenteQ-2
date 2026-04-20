@@ -13,6 +13,13 @@ interface SplineBackgroundProps {
 export function SplineBackground({ scene, fallbackImage, className }: SplineBackgroundProps) {
   const [loaded, setLoaded] = useState(false)
 
+  const handleLoad = () => {
+    setLoaded(true)
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new Event('spline:loaded'))
+    }
+  }
+
   return (
     <div
       aria-hidden="true"
@@ -30,7 +37,7 @@ export function SplineBackground({ scene, fallbackImage, className }: SplineBack
       <Suspense fallback={null}>
         <Spline
           scene={scene}
-          onLoad={() => setLoaded(true)}
+          onLoad={handleLoad}
           style={{
             width: '100%',
             height: '100%',
