@@ -23,4 +23,13 @@ export const en: Dictionary = {
   legal: {
     label: 'LEGAL',
   },
+  footer: {
+    landmark: 'Footer',
+    contactHeading: 'Contact',
+    emailLabel: 'Email',
+    phoneLabel: 'Phone',
+    backToTop: 'Back to top',
+    cookieSettings: 'Cookie preferences',
+    credit: 'Website by',
+  },
 }

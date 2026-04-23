@@ -58,7 +58,7 @@ export default async function Home({
   if (page) {
     return (
       <main id="main-content">
-        <RenderBlocks blocks={page.layout} />
+        <RenderBlocks blocks={page.layout} locale={locale} />
       </main>
     )
   }

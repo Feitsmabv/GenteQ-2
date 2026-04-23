@@ -2,6 +2,8 @@ import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
+import { ContactHero } from '../../blocks/ContactHero/config'
+import { ContactSplit } from '../../blocks/ContactSplit/config'
 import { Hero } from '../../blocks/Hero/config'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 
@@ -66,7 +68,7 @@ export const Pages: CollectionConfig = {
               name: 'layout',
               type: 'blocks',
               required: true,
-              blocks: [Hero],
+              blocks: [Hero, ContactHero, ContactSplit],
             },
           ],
         },

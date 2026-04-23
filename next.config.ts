@@ -74,6 +74,7 @@ const nextConfig: NextConfig = {
       { source: '/privacy', destination: '/nl/privacy' },
       { source: '/voorwaarden', destination: '/nl/terms' },
       { source: '/cookies', destination: '/nl/cookies' },
+      { source: '/contact', destination: '/nl/contact' },
       { source: '/en/privacy-policy', destination: '/en/privacy' },
     ]
   },

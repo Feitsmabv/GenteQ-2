@@ -4,9 +4,8 @@ import { HeaderClient, type NavCta, type NavLink } from './Component.client'
 const defaultNavLinks: NavLink[] = [
   { label: 'Home', href: '/' },
   { label: 'Over ons', href: '/over-ons' },
-  { label: 'Contact', href: '/contact' },
 ]
-const defaultCta: NavCta = { label: 'Offerte aanvragen', href: '/contact' }
+const defaultCta: NavCta = { label: 'Contact opnemen', href: '/contact' }
 
 function normalizeHref(url: string): string {
   if (!url) return '/'

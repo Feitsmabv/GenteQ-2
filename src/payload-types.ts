@@ -70,6 +70,7 @@ export interface Config {
     pages: Page;
     media: Media;
     users: User;
+    'form-submissions': FormSubmission;
     'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
     'payload-folders': FolderInterface;
@@ -86,6 +87,7 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-folders': PayloadFoldersSelect<false> | PayloadFoldersSelect<true>;
@@ -99,9 +101,11 @@ export interface Config {
   fallbackLocale: ('false' | 'none' | 'null') | false | null | ('nl' | 'en') | ('nl' | 'en')[];
   globals: {
     header: Header;
+    footer: Footer;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
   };
   locale: 'nl' | 'en';
   widgets: {
@@ -148,35 +152,82 @@ export interface Page {
    * URL-pad. Gebruik "home" voor de homepage.
    */
   slug: string;
-  layout: {
-    variant?: ('default' | 'split' | 'centered') | null;
-    /**
-     * Kleine label boven de titel, bv. "Coming soon".
-     */
-    eyebrow?: string | null;
-    title: string;
-    subtitle?: string | null;
-    media?: (number | null) | Media;
-    /**
-     * Optioneel. Plak hier een .splinecode URL van Spline (bv. https://prod.spline.design/XXXX/scene.splinecode) om een 3D animatie als achtergrond te tonen.
-     */
-    splineScene?: string | null;
-    /**
-     * Optioneel. Export een PNG van dezelfde Spline scene. Wordt direct getoond terwijl de 3D animatie laadt.
-     */
-    splineFallback?: (number | null) | Media;
-    ctas?:
-      | {
-          label: string;
-          url: string;
-          style?: ('primary' | 'secondary' | 'ghost') | null;
-          id?: string | null;
-        }[]
-      | null;
-    id?: string | null;
-    blockName?: string | null;
-    blockType: 'hero';
-  }[];
+  layout: (
+    | {
+        variant?: ('default' | 'split' | 'centered') | null;
+        /**
+         * Kleine label boven de titel, bv. "Coming soon".
+         */
+        eyebrow?: string | null;
+        title: string;
+        subtitle?: string | null;
+        media?: (number | null) | Media;
+        /**
+         * Optioneel. Plak hier een .splinecode URL van Spline (bv. https://prod.spline.design/XXXX/scene.splinecode) om een 3D animatie als achtergrond te tonen.
+         */
+        splineScene?: string | null;
+        /**
+         * Optioneel. Export een PNG van dezelfde Spline scene. Wordt direct getoond terwijl de 3D animatie laadt.
+         */
+        splineFallback?: (number | null) | Media;
+        ctas?:
+          | {
+              label: string;
+              url: string;
+              style?: ('primary' | 'secondary' | 'ghost') | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'hero';
+      }
+    | {
+        /**
+         * Kleine label boven de titel, bv. "Contact".
+         */
+        eyebrow?: string | null;
+        title: string;
+        subtitle?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'contactHero';
+      }
+    | {
+        infoTitle?: string | null;
+        infoIntro?: string | null;
+        infoItems?:
+          | {
+              icon?: ('mail' | 'phone' | 'map' | 'clock' | 'building') | null;
+              label: string;
+              /**
+               * Zichtbare tekst (bv. "andy@genteq.be").
+               */
+              value: string;
+              /**
+               * Optioneel: maakt van de waarde een link. Bv. mailto:andy@genteq.be of tel:+32...
+               */
+              href?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Kleine regel onder de info, bv. reactietijd.
+         */
+        responsePromise?: string | null;
+        formTitle?: string | null;
+        formIntro?: string | null;
+        /**
+         * Ontvanger van de contact-mails. Wordt ook gebruikt als afzender-Reply-To.
+         */
+        recipientEmail: string;
+        successTitle?: string | null;
+        successMessage?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'contactSplit';
+      }
+  )[];
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -341,6 +392,27 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions".
+ */
+export interface FormSubmission {
+  id: number;
+  form: 'contact';
+  name: string;
+  email: string;
+  phone?: string | null;
+  subject: 'quote' | 'advice' | 'support' | 'other';
+  message: string;
+  meta?: {
+    ip?: string | null;
+    userAgent?: string | null;
+    locale?: string | null;
+    referrer?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -468,6 +540,10 @@ export interface PayloadLockedDocument {
         value: number | User;
       } | null)
     | ({
+        relationTo: 'form-submissions';
+        value: number | FormSubmission;
+      } | null)
+    | ({
         relationTo: 'payload-folders';
         value: number | FolderInterface;
       } | null);
@@ -541,6 +617,38 @@ export interface PagesSelect<T extends boolean = true> {
                     style?: T;
                     id?: T;
                   };
+              id?: T;
+              blockName?: T;
+            };
+        contactHero?:
+          | T
+          | {
+              eyebrow?: T;
+              title?: T;
+              subtitle?: T;
+              id?: T;
+              blockName?: T;
+            };
+        contactSplit?:
+          | T
+          | {
+              infoTitle?: T;
+              infoIntro?: T;
+              infoItems?:
+                | T
+                | {
+                    icon?: T;
+                    label?: T;
+                    value?: T;
+                    href?: T;
+                    id?: T;
+                  };
+              responsePromise?: T;
+              formTitle?: T;
+              formIntro?: T;
+              recipientEmail?: T;
+              successTitle?: T;
+              successMessage?: T;
               id?: T;
               blockName?: T;
             };
@@ -677,6 +785,28 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions_select".
+ */
+export interface FormSubmissionsSelect<T extends boolean = true> {
+  form?: T;
+  name?: T;
+  email?: T;
+  phone?: T;
+  subject?: T;
+  message?: T;
+  meta?:
+    | T
+    | {
+        ip?: T;
+        userAgent?: T;
+        locale?: T;
+        referrer?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -790,6 +920,63 @@ export interface Header {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number;
+  company?: {
+    tagline?: string | null;
+    /**
+     * Optioneel. Laat leeg om te verbergen.
+     */
+    address?: string | null;
+  };
+  /**
+   * Maximaal 3 kolommen met links. Leeg laten om hele footer-nav te verbergen.
+   */
+  columns?:
+    | {
+        title: string;
+        links?:
+          | {
+              label: string;
+              /**
+               * Bv. / of /contact. Externe URLs (https://) en anchors (#sectie) mogen ook.
+               */
+              url: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  contact?: {
+    email?: string | null;
+    phone?: string | null;
+    /**
+     * Bv. "We reageren binnen 24 uur."
+     */
+    responseTime?: string | null;
+  };
+  legal?:
+    | {
+        label: string;
+        /**
+         * Bv. /privacy of /cookies. Per taal in te stellen omdat NL en EN andere slugs hebben (/voorwaarden vs /terms).
+         */
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  bottom?: {
+    copyrightName?: string | null;
+    showBackToTop?: boolean | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -806,6 +993,54 @@ export interface HeaderSelect<T extends boolean = true> {
         enabled?: T;
         label?: T;
         url?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  company?:
+    | T
+    | {
+        tagline?: T;
+        address?: T;
+      };
+  columns?:
+    | T
+    | {
+        title?: T;
+        links?:
+          | T
+          | {
+              label?: T;
+              url?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  contact?:
+    | T
+    | {
+        email?: T;
+        phone?: T;
+        responseTime?: T;
+      };
+  legal?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+        id?: T;
+      };
+  bottom?:
+    | T
+    | {
+        copyrightName?: T;
+        showBackToTop?: T;
       };
   updatedAt?: T;
   createdAt?: T;

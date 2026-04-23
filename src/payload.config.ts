@@ -7,10 +7,12 @@ import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 import { migrations } from './migrations'
 
+import { FormSubmissions } from './collections/FormSubmissions'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Users } from './collections/Users'
 import { Header } from './Header/config'
+import { Footer } from './Footer/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -93,13 +95,13 @@ export default buildConfig({
     prodMigrations: migrations,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }) as any,
-  collections: [Pages, Media, Users],
+  collections: [Pages, Media, Users, FormSubmissions],
   cors: [
     getServerSideURL(),
     process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : '',
     process.env.VERCEL_BRANCH_URL ? `https://${process.env.VERCEL_BRANCH_URL}` : '',
   ].filter(Boolean),
-  globals: [Header],
+  globals: [Header, Footer],
   localization: {
     locales: [
       { label: 'Nederlands', code: 'nl' },

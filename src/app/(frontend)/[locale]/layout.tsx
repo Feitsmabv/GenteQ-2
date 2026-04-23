@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { isLocale, locales } from '@/i18n/config'
 import { Header } from '@/Header/Component'
+import { Footer } from '@/Footer/Component'
 import { SiteLoader } from '@/components/SiteLoader'
 
 export function generateStaticParams() {
@@ -21,6 +22,7 @@ export default async function LocaleLayout({
       <SiteLoader />
       <Header />
       {children}
+      <Footer locale={locale} />
     </>
   )
 }

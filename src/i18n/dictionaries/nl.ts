@@ -19,6 +19,15 @@ export type Dictionary = {
   legal: {
     label: string
   }
+  footer: {
+    landmark: string
+    contactHeading: string
+    emailLabel: string
+    phoneLabel: string
+    backToTop: string
+    cookieSettings: string
+    credit: string
+  }
 }
 
 export const nl: Dictionary = {
@@ -43,5 +52,14 @@ export const nl: Dictionary = {
   },
   legal: {
     label: 'JURIDISCH',
+  },
+  footer: {
+    landmark: 'Footer',
+    contactHeading: 'Contact',
+    emailLabel: 'E-mail',
+    phoneLabel: 'Telefoon',
+    backToTop: 'Terug naar boven',
+    cookieSettings: 'Cookie-voorkeuren',
+    credit: 'Website door',
   },
 }
