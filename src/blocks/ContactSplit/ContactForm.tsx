@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { useState, useRef, useEffect, type FormEvent } from 'react'
 
 type Subject = 'quote' | 'advice' | 'support' | 'other'
@@ -339,9 +340,9 @@ export function ContactForm({ successTitle, successMessage, locale, turnstileSit
       <div className="flex flex-col items-start gap-3 pt-2 md:flex-row md:items-center md:justify-between md:gap-6">
         <p className="max-w-xs text-xs text-slate-light/70">
           Door te versturen ga je akkoord met onze{' '}
-          <a href="/privacy" className="underline hover:text-white">
+          <Link href="/privacy" className="underline hover:text-white">
             privacyverklaring
-          </a>
+          </Link>
           .
         </p>
         <button
