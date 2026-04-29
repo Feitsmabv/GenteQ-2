@@ -48,14 +48,14 @@ export const ContactSplit: Block = {
                   type: 'text',
                   required: true,
                   localized: true,
-                  admin: { description: 'Zichtbare tekst (bv. "andy@genteq.be").' },
+                  admin: { description: 'Zichtbare tekst (bv. "info@genteq.be").' },
                 },
                 {
                   name: 'href',
                   type: 'text',
                   admin: {
                     description:
-                      'Optioneel: maakt van de waarde een link. Bv. mailto:andy@genteq.be of tel:+32...',
+                      'Optioneel: maakt van de waarde een link. Bv. mailto:info@genteq.be of tel:+32...',
                   },
                 },
               ],
@@ -87,7 +87,7 @@ export const ContactSplit: Block = {
               name: 'recipientEmail',
               type: 'email',
               required: true,
-              defaultValue: 'andy@genteq.be',
+              defaultValue: 'info@genteq.be',
               admin: {
                 description:
                   'Ontvanger van de contact-mails. Wordt ook gebruikt als afzender-Reply-To.',

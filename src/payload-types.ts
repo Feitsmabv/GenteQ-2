@@ -201,11 +201,11 @@ export interface Page {
               icon?: ('mail' | 'phone' | 'map' | 'clock' | 'building') | null;
               label: string;
               /**
-               * Zichtbare tekst (bv. "andy@genteq.be").
+               * Zichtbare tekst (bv. "info@genteq.be").
                */
               value: string;
               /**
-               * Optioneel: maakt van de waarde een link. Bv. mailto:andy@genteq.be of tel:+32...
+               * Optioneel: maakt van de waarde een link. Bv. mailto:info@genteq.be of tel:+32...
                */
               href?: string | null;
               id?: string | null;
