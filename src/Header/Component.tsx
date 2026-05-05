@@ -3,7 +3,6 @@ import { HeaderClient, type NavCta, type NavLink } from './Component.client'
 
 const defaultNavLinks: NavLink[] = [
   { label: 'Home', href: '/' },
-  { label: 'Over ons', href: '/over-ons' },
 ]
 const defaultCta: NavCta = { label: 'Contact opnemen', href: '/contact' }
 
