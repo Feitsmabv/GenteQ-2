@@ -100,7 +100,7 @@ export function ContactSplitBlock({
             <ContactForm
               successTitle={successTitle || 'Bedankt, we hebben je bericht ontvangen.'}
               successMessage={
-                successMessage || 'We nemen binnen 1 werkdag contact met je op.'
+                successMessage || 'We nemen binnen 3 werkdagen contact met je op.'
               }
               locale={locale}
               turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ''}

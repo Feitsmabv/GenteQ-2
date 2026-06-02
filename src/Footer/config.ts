@@ -107,7 +107,7 @@ export const Footer: GlobalConfig = {
           label: 'Reactietijd-belofte',
           localized: true,
           admin: {
-            description: 'Bv. "We reageren binnen 24 uur."',
+            description: 'Bv. "We reageren binnen 3 werkdagen."',
           },
         },
       ],
