@@ -42,11 +42,11 @@ export const legalContent: Record<LegalKey, Record<Locale, LegalContent>> = {
         {
           heading: '5. Uw rechten',
           content:
-            'U heeft het recht om uw persoonsgegevens in te zien, te corrigeren of te verwijderen. Neem hiervoor contact op via [email].',
+            'U heeft het recht om uw persoonsgegevens in te zien, te corrigeren of te verwijderen. Neem hiervoor contact op via info@genteq.be.',
         },
         {
           heading: '6. Contact',
-          content: 'Voor vragen over dit privacybeleid kunt u contact opnemen via [email].',
+          content: 'Voor vragen over dit privacybeleid kunt u contact opnemen via info@genteq.be.',
         },
       ],
     },
@@ -78,11 +78,11 @@ export const legalContent: Record<LegalKey, Record<Locale, LegalContent>> = {
         {
           heading: '5. Your rights',
           content:
-            'You have the right to access, correct or delete your personal data. To do so, please contact us at [email].',
+            'You have the right to access, correct or delete your personal data. To do so, please contact us at info@genteq.be.',
         },
         {
           heading: '6. Contact',
-          content: 'For questions about this privacy policy, please contact us at [email].',
+          content: 'For questions about this privacy policy, please contact us at info@genteq.be.',
         },
       ],
     },
@@ -115,7 +115,7 @@ export const legalContent: Record<LegalKey, Record<Locale, LegalContent>> = {
         },
         {
           heading: '5. Contact',
-          content: 'Voor vragen over deze voorwaarden kunt u contact opnemen via [email].',
+          content: 'Voor vragen over deze voorwaarden kunt u contact opnemen via info@genteq.be.',
         },
       ],
     },
@@ -146,7 +146,7 @@ export const legalContent: Record<LegalKey, Record<Locale, LegalContent>> = {
         },
         {
           heading: '5. Contact',
-          content: 'For questions about these terms, please contact us at [email].',
+          content: 'For questions about these terms, please contact us at info@genteq.be.',
         },
       ],
     },
@@ -184,7 +184,7 @@ export const legalContent: Record<LegalKey, Record<Locale, LegalContent>> = {
         },
         {
           heading: '6. Contact',
-          content: 'Voor vragen over ons cookiebeleid kunt u contact opnemen via [email].',
+          content: 'Voor vragen over ons cookiebeleid kunt u contact opnemen via info@genteq.be.',
         },
       ],
     },
@@ -220,7 +220,7 @@ export const legalContent: Record<LegalKey, Record<Locale, LegalContent>> = {
         },
         {
           heading: '6. Contact',
-          content: 'For questions about our cookie policy, please contact us at [email].',
+          content: 'For questions about our cookie policy, please contact us at info@genteq.be.',
         },
       ],
     },

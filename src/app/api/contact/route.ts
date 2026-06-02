@@ -132,7 +132,7 @@ export async function POST(request: Request) {
     },
   })
 
-  const recipient = process.env.CONTACT_RECIPIENT_EMAIL || 'geoffrey.feitsma@gmail.com'
+  const recipient = process.env.CONTACT_RECIPIENT_EMAIL || 'info@genteq.be'
   const html = [
     `<h2 style="font-family:system-ui,sans-serif;margin:0 0 16px;color:#1C1C1C;">Nieuw contactformulier</h2>`,
     `<table style="font-family:system-ui,sans-serif;border-collapse:collapse;font-size:14px;color:#1C1C1C;">`,
