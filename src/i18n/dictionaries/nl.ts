@@ -28,6 +28,15 @@ export type Dictionary = {
     cookieSettings: string
     credit: string
   }
+  video: {
+    region: string
+    play: string
+    pause: string
+    soundOn: string
+    soundOff: string
+    fullscreen: string
+    progress: string
+  }
 }
 
 export const nl: Dictionary = {
@@ -61,5 +70,14 @@ export const nl: Dictionary = {
     backToTop: 'Terug naar boven',
     cookieSettings: 'Cookie-voorkeuren',
     credit: 'Website door',
+  },
+  video: {
+    region: 'Video',
+    play: 'Video afspelen',
+    pause: 'Video pauzeren',
+    soundOn: 'Geluid aan',
+    soundOff: 'Geluid uit',
+    fullscreen: 'Volledig scherm',
+    progress: 'Voortgang van de video',
   },
 }

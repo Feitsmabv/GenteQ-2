@@ -32,4 +32,13 @@ export const en: Dictionary = {
     cookieSettings: 'Cookie preferences',
     credit: 'Website by',
   },
+  video: {
+    region: 'Video',
+    play: 'Play video',
+    pause: 'Pause video',
+    soundOn: 'Sound on',
+    soundOff: 'Sound off',
+    fullscreen: 'Full screen',
+    progress: 'Video progress',
+  },
 }

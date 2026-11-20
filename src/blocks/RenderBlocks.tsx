@@ -1,6 +1,7 @@
 import type { Page } from '@/payload-types'
 import { ContactHeroBlock } from './ContactHero/Component'
 import { ContactSplitBlock } from './ContactSplit/Component'
+import { FullscreenVideoBlock } from './FullscreenVideo/Component'
 import { HeroBlock } from './Hero/Component'
 
 type Block = NonNullable<Page['layout']>[number]
@@ -21,6 +22,8 @@ export function RenderBlocks({
         switch (block.blockType) {
           case 'hero':
             return <HeroBlock key={key} {...block} />
+          case 'fullscreenVideo':
+            return <FullscreenVideoBlock key={key} {...block} locale={locale} />
           case 'contactHero':
             return <ContactHeroBlock key={key} {...block} />
           case 'contactSplit':

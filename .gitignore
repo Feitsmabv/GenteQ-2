@@ -4,6 +4,9 @@ node_modules
 .DS_Store
 .env
 Wachtwoord/
+
+# Bronvideo's en proefversies (staan in de opslag, niet in git)
+Filmpje/
 *.rtf
 .next
 next-env.d.ts

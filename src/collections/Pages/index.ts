@@ -4,6 +4,7 @@ import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { ContactHero } from '../../blocks/ContactHero/config'
 import { ContactSplit } from '../../blocks/ContactSplit/config'
+import { FullscreenVideo } from '../../blocks/FullscreenVideo/config'
 import { Hero } from '../../blocks/Hero/config'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
 
@@ -68,7 +69,7 @@ export const Pages: CollectionConfig = {
               name: 'layout',
               type: 'blocks',
               required: true,
-              blocks: [Hero, ContactHero, ContactSplit],
+              blocks: [Hero, FullscreenVideo, ContactHero, ContactSplit],
             },
           ],
         },

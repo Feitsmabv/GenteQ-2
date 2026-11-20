@@ -184,6 +184,27 @@ export interface Page {
       }
     | {
         /**
+         * Titel linksboven op de video, bv. "HUAWEI Baywa".
+         */
+        title?: string | null;
+        /**
+         * MP4 in 1080p, verkleind voor het web. Start vanzelf zonder geluid zodra het blok in beeld komt.
+         */
+        video: number | Media;
+        /**
+         * Optioneel. MP4 in 720p. Wordt gebruikt op smalle schermen.
+         */
+        videoMobile?: (number | null) | Media;
+        /**
+         * Wordt getoond tot de video start. Neem het eerste beeld van de video.
+         */
+        poster?: (number | null) | Media;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'fullscreenVideo';
+      }
+    | {
+        /**
          * Kleine label boven de titel, bv. "Contact".
          */
         eyebrow?: string | null;
@@ -617,6 +638,16 @@ export interface PagesSelect<T extends boolean = true> {
                     style?: T;
                     id?: T;
                   };
+              id?: T;
+              blockName?: T;
+            };
+        fullscreenVideo?:
+          | T
+          | {
+              title?: T;
+              video?: T;
+              videoMobile?: T;
+              poster?: T;
               id?: T;
               blockName?: T;
             };

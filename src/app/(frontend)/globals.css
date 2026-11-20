@@ -548,3 +548,201 @@ header[data-header] {
   transform: scale(0.98);
 }
 
+
+/*
+ * Video — volledig scherm (blok fullscreenVideo).
+ *
+ * Smal of staand scherm: titel, video in eigen 16:9-verhouding, knoppen eronder.
+ * Liggend scherm: het blok vult het hele scherm; titel en knoppen liggen in
+ * één rij bovenaan op de video. De video mag daarbij hoogstens 14% in de
+ * hoogte en 8% in de breedte afgesneden worden, zodat ingebrande ondertitels
+ * en naamtitels altijd leesbaar blijven. Is het scherm hoger dan die marge
+ * toelaat, dan wordt het blok iets lager dan het scherm (geen donkere strook);
+ * is het veel breder (ultrabreed), dan blijft er links en rechts een rand.
+ */
+.fsv {
+  position: relative;
+  background-color: var(--carbon-black);
+}
+
+.fsv__box {
+  display: flex;
+  flex-direction: column;
+  padding-block: 4rem;
+}
+
+.fsv__title {
+  margin-bottom: 1.25rem;
+  padding-inline: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+}
+
+.fsv__frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background-color: #000000;
+}
+
+.fsv__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Snijdt vooral bovenaan: de ondertitels staan onderaan in beeld. */
+  object-position: 50% 70%;
+  cursor: pointer;
+}
+
+.fsv__shade {
+  display: none;
+}
+
+.fsv__progress {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  height: 1rem;
+  cursor: pointer;
+}
+
+.fsv__progress:focus-visible {
+  outline: 2px solid var(--steel-blue);
+  outline-offset: -2px;
+}
+
+.fsv__progress-track {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.22);
+  transition: height 0.2s ease;
+}
+
+.fsv__progress:hover .fsv__progress-track,
+.fsv__progress:focus-visible .fsv__progress-track {
+  height: 6px;
+}
+
+.fsv__progress-fill {
+  display: block;
+  height: 100%;
+  background-color: var(--steel-blue);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.fsv__controls {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.125rem;
+  margin: 1rem 1.5rem 0;
+  padding: 0.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.fsv__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.fsv__button:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.fsv__button:focus-visible {
+  border-radius: 999px;
+}
+
+.fsv__button--label {
+  padding-inline: 0.875rem 1.125rem;
+}
+
+@media (orientation: landscape) and (min-width: 48rem) {
+  .fsv {
+    display: flex;
+    justify-content: center;
+    container-type: inline-size;
+    /* Middellijn van de rij met titel en knoppen, onder de zwevende navigatie. */
+    --fsv-row: clamp(7.5rem, 15vh, 9rem);
+    --fsv-inset: clamp(1.5rem, 4cqw, 4.5rem);
+  }
+
+  .fsv__box {
+    position: relative;
+    display: block;
+    /* 206.72 = 1 / (0.86 × 9/16) en 61.14 = 1 / (0.92 × 16/9): de snijgrenzen hierboven. */
+    width: min(100%, 206.72vh);
+    width: min(100%, 206.72svh);
+    height: min(100vh, 61.14cqw);
+    height: min(100svh, 61.14cqw);
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .fsv__frame {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
+  }
+
+  .fsv__shade {
+    position: absolute;
+    inset: 0 0 auto;
+    display: block;
+    height: 40%;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.55) 0%,
+      rgba(0, 0, 0, 0.22) 55%,
+      rgba(0, 0, 0, 0) 100%
+    );
+    pointer-events: none;
+  }
+
+  .fsv__title,
+  .fsv__controls {
+    position: absolute;
+    z-index: 2;
+    top: var(--fsv-row);
+    margin: 0;
+    transform: translateY(-50%);
+  }
+
+  .fsv__title {
+    left: var(--fsv-inset);
+    padding: 0;
+    font-size: clamp(1.75rem, 2.6cqw, 2.75rem);
+    text-shadow: 0 1px 24px rgba(0, 0, 0, 0.35);
+  }
+
+  /* Bewust zonder backdrop-filter: wazig glas boven een video moet elk beeld
+     opnieuw berekend worden en kan het afspelen doen haperen. */
+  .fsv__controls {
+    right: var(--fsv-inset);
+    border-color: rgba(255, 255, 255, 0.14);
+    background-color: rgba(28, 28, 28, 0.62);
+  }
+}
