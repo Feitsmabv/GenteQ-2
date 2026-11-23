@@ -563,14 +563,16 @@ header[data-header] {
 .fsv {
   position: relative;
   background-color: var(--carbon-black);
+  /* Smal scherm: de bijna zwarte hero loopt zacht over in het blok, zonder harde rand. */
+  background-image: linear-gradient(to bottom, #020202 0, var(--carbon-black) 7rem);
   /* Na de pijl in de hero: titel met wat lucht onder de zwevende navigatie, niet erachter. */
-  scroll-margin-top: 1.5rem;
+  scroll-margin-top: 2.5rem;
 }
 
 .fsv__box {
   display: flex;
   flex-direction: column;
-  padding-block: 4rem;
+  padding-block: 3rem;
 }
 
 .fsv__title {
@@ -682,11 +684,48 @@ header[data-header] {
   padding-inline: 0.875rem 1.125rem;
 }
 
+/*
+ * Smal of staand scherm: de knoppen vormen een balk die vast onder de video
+ * zit, over de volle breedte. Titel, video en balk lezen zo als één speler.
+ * De iconen lijnen uit op dezelfde marge van 1,5rem als de titel.
+ */
+@media not all and (orientation: landscape) and (min-width: 48rem) {
+  .fsv__controls {
+    display: flex;
+    align-self: stretch;
+    margin: 0;
+    padding: 0.375rem 0.75rem;
+    border: 0;
+    border-radius: 0;
+    background-color: rgba(255, 255, 255, 0.04);
+  }
+
+  .fsv__button--end {
+    margin-left: auto;
+  }
+}
+
+/* Staande tablet: zelfde zijmarge als de footer (3rem) en iets meer lucht onder de navigatie. */
+@media (orientation: portrait) and (min-width: 48rem) {
+  .fsv {
+    scroll-margin-top: 3.5rem;
+  }
+
+  .fsv__title {
+    padding-inline: 3rem;
+  }
+
+  .fsv__controls {
+    padding-inline: 2.25rem;
+  }
+}
+
 @media (orientation: landscape) and (min-width: 48rem) {
   .fsv {
     display: flex;
     justify-content: center;
     container-type: inline-size;
+    background-image: none;
     scroll-margin-top: 0;
     /* Middellijn van de rij met titel en knoppen, onder de zwevende navigatie. */
     --fsv-row: clamp(7.5rem, 15vh, 9rem);

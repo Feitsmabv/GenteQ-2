@@ -306,7 +306,7 @@ export function FullscreenVideoPlayer({
           </button>
           <button
             type="button"
-            className="fsv__button"
+            className="fsv__button fsv__button--end"
             onClick={enterFullscreen}
             aria-label={labels.fullscreen}
           >

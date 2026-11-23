@@ -102,11 +102,11 @@ export function FooterClient({
   return (
     <footer
       aria-label={labels.landmark}
-      className="bg-carbon-black px-5 pb-10 pt-16 text-slate-light md:px-12 lg:px-20"
+      className="border-t border-white/[0.08] bg-carbon-black px-6 pb-10 pt-12 text-slate-light md:border-t-0 md:px-12 md:pt-16 lg:px-20"
     >
       <div className="mx-auto max-w-7xl">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
+          <div className="col-span-2 flex flex-col gap-4 sm:col-span-1">
             <span className="text-[15px] font-semibold text-white">GenteQ</span>
             <div className="h-px w-8 bg-graphite" />
             {tagline && <p className="text-sm leading-relaxed">{tagline}</p>}
@@ -136,7 +136,7 @@ export function FooterClient({
           ))}
 
           {hasContactDetails && (
-            <div className="flex flex-col gap-4">
+            <div className="col-span-2 flex flex-col gap-4 sm:col-span-1">
               <span className="text-[15px] font-semibold text-white">
                 {labels.contactHeading}
               </span>
@@ -174,13 +174,15 @@ export function FooterClient({
 
         <div className="my-10 h-px w-full bg-graphite" />
 
-        <div className="flex flex-col gap-4 text-[13px] text-ash md:flex-row md:items-center md:justify-between">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <span>
+        {/* Smal scherm: de twee groepen lossen op (contents) zodat de links samen
+            bovenaan staan en ©, credit en de knop naar boven één slotregel vormen. */}
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-3 text-[13px] text-ash md:flex-nowrap md:justify-between md:gap-4">
+          <div className="contents md:flex md:flex-wrap md:items-center md:gap-x-4 md:gap-y-2">
+            <span className="order-3 md:order-none">
               &copy; {currentYear} {copyrightName}.
             </span>
             {legal.length > 0 && (
-              <ul className="flex flex-wrap items-center gap-x-4 gap-y-2">
+              <ul className="contents md:flex md:flex-wrap md:items-center md:gap-x-4 md:gap-y-2">
                 {legal.map((link) => (
                   <li key={`${link.href}-${link.label}`}>
                     <FooterNavLink link={link} />
@@ -190,17 +192,19 @@ export function FooterClient({
             )}
           </div>
 
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <span aria-hidden="true" className="order-2 basis-full md:hidden" />
+
+          <div className="contents md:flex md:flex-wrap md:items-center md:gap-x-4 md:gap-y-2">
             {cookieyesEnabled && (
               <button
                 type="button"
                 onClick={handleCookieSettings}
-                className="footer-link transition-colors hover:text-white focus-visible:text-white"
+                className="footer-link text-sm text-slate-light transition-colors hover:text-white focus-visible:text-white md:text-[13px] md:text-ash"
               >
                 {labels.cookieSettings}
               </button>
             )}
-            <span>
+            <span className="order-3 md:order-none">
               {labels.credit}{' '}
               <a
                 href="https://feitsma.be"
@@ -216,7 +220,7 @@ export function FooterClient({
                 type="button"
                 onClick={handleBackToTop}
                 aria-label={labels.backToTop}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-graphite text-slate-light transition-colors hover:border-steel-blue hover:text-white focus-visible:border-steel-blue focus-visible:text-white"
+                className="order-3 ml-auto inline-flex h-9 w-9 items-center justify-center rounded-full border border-graphite text-slate-light transition-colors hover:border-steel-blue hover:text-white focus-visible:border-steel-blue focus-visible:text-white md:order-none md:ml-0"
               >
                 <svg
                   aria-hidden="true"
