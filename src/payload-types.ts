@@ -985,7 +985,7 @@ export interface Footer {
     email?: string | null;
     phone?: string | null;
     /**
-     * Bv. "We reageren binnen 3 werkdagen."
+     * Bv. "We reageren zo snel mogelijk."
      */
     responseTime?: string | null;
   };

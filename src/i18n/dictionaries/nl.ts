@@ -3,6 +3,7 @@ export type Dictionary = {
     skipToContent: string
     comingSoon: string
     languageSwitcher: string
+    scrollDown: string
   }
   home: {
     metaTitle: string
@@ -44,6 +45,7 @@ export const nl: Dictionary = {
     skipToContent: 'Ga naar inhoud',
     comingSoon: 'Coming Soon',
     languageSwitcher: 'Taal',
+    scrollDown: 'Scroll naar de volgende sectie',
   },
   home: {
     metaTitle: 'GenteQ | Energieoplossingen, Vereenvoudigd',

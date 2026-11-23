@@ -5,6 +5,7 @@ export const en: Dictionary = {
     skipToContent: 'Skip to content',
     comingSoon: 'Coming Soon',
     languageSwitcher: 'Language',
+    scrollDown: 'Scroll to the next section',
   },
   home: {
     metaTitle: 'GenteQ | Energy Solutions, Simplified',

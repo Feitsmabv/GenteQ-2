@@ -2,8 +2,17 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { Page, Media } from '@/payload-types'
 import { SplineBackground } from '@/components/SplineBackground'
+import { isLocale } from '@/i18n/config'
+import { getDictionary } from '@/i18n/getDictionary'
+import { ScrollCue } from './ScrollCue.client'
 
 type HeroBlock = Extract<NonNullable<Page['layout']>[number], { blockType: 'hero' }>
+
+interface HeroContext {
+  /** Staat er een blok onder de hero? Dan piept dat al in beeld en komt er een pijl naar beneden. */
+  hasNext?: boolean
+  locale: string
+}
 
 export function HeroBlock({
   variant,
@@ -14,7 +23,9 @@ export function HeroBlock({
   splineScene,
   splineFallback,
   ctas,
-}: HeroBlock) {
+  hasNext = false,
+  locale,
+}: HeroBlock & HeroContext) {
   const image = typeof media === 'object' && media !== null ? (media as Media) : null
   const fallback =
     typeof splineFallback === 'object' && splineFallback !== null
@@ -23,9 +34,15 @@ export function HeroBlock({
   const isSplit = variant === 'split'
   const isCentered = variant === 'centered' || !variant || variant === 'default'
   const hasSpline = typeof splineScene === 'string' && splineScene.trim().length > 0
+  const titleWordCount = title.split(' ').length
+  const scrollLabel = getDictionary(isLocale(locale) ? locale : 'nl').common.scrollDown
 
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden bg-carbon-black px-6 py-24">
+    <section
+      className={`relative flex items-center overflow-hidden bg-carbon-black px-6 py-24 ${
+        hasNext ? 'hero--peek' : 'min-h-screen'
+      }`}
+    >
       {hasSpline && (
         <SplineBackground
           scene={splineScene!}
@@ -114,6 +131,8 @@ export function HeroBlock({
           </div>
         )}
       </div>
+
+      {hasNext && <ScrollCue label={scrollLabel} delayMs={titleWordCount * 90 + 850} />}
     </section>
   )
 }

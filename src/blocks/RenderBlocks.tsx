@@ -21,7 +21,9 @@ export function RenderBlocks({
         const key = block.id ?? i
         switch (block.blockType) {
           case 'hero':
-            return <HeroBlock key={key} {...block} />
+            return (
+              <HeroBlock key={key} {...block} hasNext={i < blocks.length - 1} locale={locale} />
+            )
           case 'fullscreenVideo':
             return <FullscreenVideoBlock key={key} {...block} locale={locale} />
           case 'contactHero':
